@@ -10,8 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "commander": "^13.1.0"
+    "commander": "^13.1.0",
+    "nanoid": "^5.1.5"
   },
-  "devDependencies": {},
   "description": ""
 }

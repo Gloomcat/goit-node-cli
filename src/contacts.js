@@ -1,8 +1,11 @@
 import fs from "fs/promises";
-import path from "path";
-// import { nanoid } from "nanoid";
+
+import { nanoid } from "nanoid";
 
 const contactsPath = "src/db/contacts.json";
+
+const updateContacts = (data) =>
+  fs.writeFile(contactsPath, JSON.stringify(data, null, 2));
 
 export async function listContacts() {
   const data = await fs.readFile(contactsPath);
@@ -10,13 +13,34 @@ export async function listContacts() {
 }
 
 export async function getContactById(contactId) {
-  // ...твій код. Повертає об'єкт контакту з таким id. Повертає null, якщо контакт з таким id не знайдений.
+  const data = await listContacts();
+  const result = data.find((item) => item.id === contactId);
+  return result || null;
 }
 
 export async function removeContact(contactId) {
-  // ...твій код. Повертає об'єкт видаленого контакту. Повертає null, якщо контакт з таким id не знайдений.
+  const data = await listContacts();
+  const index = data.findIndex((item) => item.id === contactId);
+  if (index === -1) {
+    return null;
+  }
+
+  const [result] = data.splice(index, 1);
+  await updateContacts(data);
+
+  return result;
 }
 
 export async function addContact(name, email, phone) {
-  // ...твій код. Повертає об'єкт доданого контакту (з id).
+  const data = await listContacts();
+  const newContact = {
+    id: nanoid(),
+    name: name,
+    email: email,
+    phone: phone,
+  };
+  data.push(newContact);
+  await updateContacts(data);
+
+  return newContact;
 }

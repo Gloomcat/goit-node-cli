@@ -2,9 +2,9 @@ import { program } from "commander";
 
 import {
   listContacts,
-  // getContactById,
-  // removeContact,
-  // addContact,
+  getContactById,
+  removeContact,
+  addContact,
 } from "./src/contacts.js";
 
 program
@@ -26,15 +26,16 @@ async function invokeAction({ action, id, name, email, phone }) {
       console.log(allContacts);
       break;
     case "get":
-      // ... id
+      const contact = await getContactById(id);
+      console.log(contact);
       break;
-
     case "add":
-      // ... name email phone
+      const added = await addContact(name, email, phone);
+      console.log(added);
       break;
-
     case "remove":
-      // ... id
+      const removed = await removeContact(id);
+      console.log(removed);
       break;
 
     default:
