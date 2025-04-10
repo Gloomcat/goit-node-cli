@@ -1,13 +1,20 @@
 import fs from "fs/promises";
+import path from "path";
 
 import { nanoid } from "nanoid";
+import { fileURLToPath } from "url";
 
-const contactsPath = "src/db/contacts.json";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const contactsPath = path.resolve(__dirname, "../src/db/contacts.json");
 
 const updateContacts = (data) =>
   fs.writeFile(contactsPath, JSON.stringify(data, null, 2));
 
 export async function listContacts() {
+  console.log(__filename);
+  console.log(__dirname);
   const data = await fs.readFile(contactsPath);
   return JSON.parse(data);
 }
@@ -19,7 +26,7 @@ export async function getContactById(contactId) {
 }
 
 export async function removeContact(contactId) {
-  const data = await listContacts();
+  const data = await getAllMovies();
   const index = data.findIndex((item) => item.id === contactId);
   if (index === -1) {
     return null;
